@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище ToDoModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DayOfWeeks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DayOfWeekName" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PerformerImages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Guid" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Data" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ContentType" Type="nvarchar" MaxLength="100" />
+    <Property Name="DateChanged" Type="datetime" />
+    <Property Name="FileName" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="Performers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Sex" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TaskDayOfWeeks">
+    <Key>
+      <PropertyRef Name="Task_Id" />
+      <PropertyRef Name="DayOfWeek_Id" />
+    </Key>
+    <Property Name="Task_Id" Type="int" Nullable="false" />
+    <Property Name="DayOfWeek_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Tasks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PerformerId" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_dbo_PerformerImages_dbo_Performers_Id">
+    <End Role="Performers" Type="Self.Performers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PerformerImages" Type="Self.PerformerImages" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Performers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PerformerImages">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_TaskDayOfWeeks_dbo_DayOfWeeks_DayOfWeek_Id">
+    <End Role="DayOfWeeks" Type="Self.DayOfWeeks" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TaskDayOfWeeks" Type="Self.TaskDayOfWeeks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DayOfWeeks">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TaskDayOfWeeks">
+        <PropertyRef Name="DayOfWeek_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_TaskDayOfWeeks_dbo_Tasks_Task_Id">
+    <End Role="Tasks" Type="Self.Tasks" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TaskDayOfWeeks" Type="Self.TaskDayOfWeeks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tasks">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TaskDayOfWeeks">
+        <PropertyRef Name="Task_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Tasks_dbo_Performers_PerformerId">
+    <End Role="Performers" Type="Self.Performers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Performers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tasks">
+        <PropertyRef Name="PerformerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище ToDoModelContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DayOfWeeks" EntityType="Self.DayOfWeeks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PerformerImages" EntityType="Self.PerformerImages" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Performers" EntityType="Self.Performers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TaskDayOfWeeks" EntityType="Self.TaskDayOfWeeks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_PerformerImages_dbo_Performers_Id" Association="Self.FK_dbo_PerformerImages_dbo_Performers_Id">
+      <End Role="Performers" EntitySet="Performers" />
+      <End Role="PerformerImages" EntitySet="PerformerImages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_TaskDayOfWeeks_dbo_DayOfWeeks_DayOfWeek_Id" Association="Self.FK_dbo_TaskDayOfWeeks_dbo_DayOfWeeks_DayOfWeek_Id">
+      <End Role="DayOfWeeks" EntitySet="DayOfWeeks" />
+      <End Role="TaskDayOfWeeks" EntitySet="TaskDayOfWeeks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_TaskDayOfWeeks_dbo_Tasks_Task_Id" Association="Self.FK_dbo_TaskDayOfWeeks_dbo_Tasks_Task_Id">
+      <End Role="Tasks" EntitySet="Tasks" />
+      <End Role="TaskDayOfWeeks" EntitySet="TaskDayOfWeeks" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Tasks_dbo_Performers_PerformerId" Association="Self.FK_dbo_Tasks_dbo_Performers_PerformerId">
+      <End Role="Performers" EntitySet="Performers" />
+      <End Role="Tasks" EntitySet="Tasks" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,14 @@
+﻿@using ToDoDBFirst.Models
+@model ToDoDBFirst.Models.DayOfWeekViewModel
+
+<h2>День недели</h2>
+<br />
+<legend><h3>Пожалуйста, заполните необходимые поля</h3></legend>
+
+@using (Html.BeginForm("Create", "DayOfWeeks", FormMethod.Post))
+{
+    @Html.EditorForModel()
+
+    <input type="submit" value="Сохранить" />
+    <button>@Html.ActionLink("Отменить", "Index", "DayOfWeeks")</button>
+}

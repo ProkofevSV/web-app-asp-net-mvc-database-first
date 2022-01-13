@@ -1,0 +1,13 @@
+﻿@using ToDoDBFirst.Models
+@model TaskViewModel
+
+<h2>Дело</h2>
+<br />
+<legend><h3>Пожалуйста, заполните необходимые поля</h3></legend>
+
+@using (Html.BeginForm("Create", "Tasks", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.EditorForModel()
+    <input type="submit" value="Сохранить" />
+    <button>@Html.ActionLink("Отменить", "Index", "Tasks")</button>
+}

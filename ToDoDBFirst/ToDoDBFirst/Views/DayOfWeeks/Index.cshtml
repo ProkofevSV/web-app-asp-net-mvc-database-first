@@ -1,0 +1,35 @@
+﻿@using ToDoDBFirst.Models
+@using ToDoDBFirst.Extensions
+@model List<DayOfWeekViewModel>
+
+<h1><b>Дни недели</b></h1>
+
+
+@Html.ActionLink("Добавить запись", "Create", "DayOfWeeks")
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                День недели
+            </th>                       
+            <th>
+                Действия
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dayOfWeek in Model)
+        {
+        <tr>
+            <td>
+                @dayOfWeek.DayOfWeekName
+            </td>                                  
+            <td>
+                @Html.ActionLink("Удалить", "Delete", "DayOfWeeks", new { id = dayOfWeek.Id }, new { })
+                @Html.ActionLink("Изменить", "Edit", "DayOfWeeks", new { id = dayOfWeek.Id }, new { })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

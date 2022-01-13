@@ -1,0 +1,40 @@
+﻿@using ToDoDBFirst.Models
+@using ToDoDBFirst.Extensions
+@model List<TaskViewModel>
+
+<h1><b>Описание </b></h1>
+
+@Html.ActionLink("Добавить запись", "Create", "Tasks")
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Задача
+            </th>
+            <th>
+                Описание
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>
+                    @task.Name
+                </td>
+                <td>
+                    @task.Description
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Назад", "Index", "Tasks")
+
+<hr />
+
+
+<sub><i>Описание может быть не точным</i></sub>

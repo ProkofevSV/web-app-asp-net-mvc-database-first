@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ToDoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DayOfWeek">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DayOfWeekName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Tasks" Relationship="Self.TaskDayOfWeeks" FromRole="DayOfWeeks" ToRole="Tasks" />
+  </EntityType>
+  <EntityType Name="PerformerImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Guid" Type="Guid" Nullable="false" />
+    <Property Name="Data" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+    <Property Name="ContentType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="DateChanged" Type="DateTime" Precision="3" />
+    <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Performer" Relationship="Self.FK_dbo_PerformerImages_dbo_Performers_Id" FromRole="PerformerImages" ToRole="Performers" />
+  </EntityType>
+  <EntityType Name="Performer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Sex" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="PerformerImage" Relationship="Self.FK_dbo_PerformerImages_dbo_Performers_Id" FromRole="Performers" ToRole="PerformerImages" />
+    <NavigationProperty Name="Tasks" Relationship="Self.FK_dbo_Tasks_dbo_Performers_PerformerId" FromRole="Performers" ToRole="Tasks" />
+  </EntityType>
+  <EntityType Name="Task">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PerformerId" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Performer" Relationship="Self.FK_dbo_Tasks_dbo_Performers_PerformerId" FromRole="Tasks" ToRole="Performers" />
+    <NavigationProperty Name="DayOfWeeks" Relationship="Self.TaskDayOfWeeks" FromRole="Tasks" ToRole="DayOfWeeks" />
+  </EntityType>
+  <Association Name="FK_dbo_PerformerImages_dbo_Performers_Id">
+    <End Role="Performers" Type="Self.Performer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="PerformerImages" Type="Self.PerformerImage" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Performers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PerformerImages">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Tasks_dbo_Performers_PerformerId">
+    <End Role="Performers" Type="Self.Performer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Performers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tasks">
+        <PropertyRef Name="PerformerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TaskDayOfWeeks">
+    <End Role="DayOfWeeks" Type="Self.DayOfWeek" Multiplicity="*" />
+    <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="ToDoEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+    <EntitySet Name="DayOfWeeks" EntityType="Self.DayOfWeek" />
+    <EntitySet Name="PerformerImages" EntityType="Self.PerformerImage" />
+    <EntitySet Name="Performers" EntityType="Self.Performer" />
+    <EntitySet Name="Tasks" EntityType="Self.Task" />
+    <AssociationSet Name="FK_dbo_PerformerImages_dbo_Performers_Id" Association="Self.FK_dbo_PerformerImages_dbo_Performers_Id">
+      <End Role="Performers" EntitySet="Performers" />
+      <End Role="PerformerImages" EntitySet="PerformerImages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Tasks_dbo_Performers_PerformerId" Association="Self.FK_dbo_Tasks_dbo_Performers_PerformerId">
+      <End Role="Performers" EntitySet="Performers" />
+      <End Role="Tasks" EntitySet="Tasks" />
+    </AssociationSet>
+    <AssociationSet Name="TaskDayOfWeeks" Association="Self.TaskDayOfWeeks">
+      <End Role="DayOfWeeks" EntitySet="DayOfWeeks" />
+      <End Role="Tasks" EntitySet="Tasks" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

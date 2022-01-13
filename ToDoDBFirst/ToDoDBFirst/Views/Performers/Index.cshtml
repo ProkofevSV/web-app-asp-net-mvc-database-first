@@ -1,0 +1,46 @@
+﻿@using ToDoDBFirst.Models
+@using ToDoDBFirst.Extensions
+@model List<PerformerViewModel>
+
+<h1><b>Исполнители</b></h1>
+
+@Html.ActionLink("Добавить запись", "Create", "Performers")
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                Исполнитель
+            </th>
+            <th>
+                Пол
+            </th>
+            <th>
+                Фото Исполнителя
+            </th>
+            <th>
+                Действия
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var performer in Model)
+        {
+        <tr>
+            <td>
+                @performer.Name
+            </td>
+            <td>
+                @performer.Sex.GetDisplayValue()
+            </td>
+            <td>
+                <img src="/Performers/GetImage/@performer.Id" style="max-width: 100px; max-height: 200px;" />
+            </td>
+            <td>
+                @Html.ActionLink("Удалить", "Delete", "Performers", new { id = performer.Id }, new { })
+                @Html.ActionLink("Изменить", "Edit", "Performers", new { id = performer.Id }, new { })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище ToDoModelContainer" CdmEntityContainer="ToDoEntities">
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="ToDoModel.C__MigrationHistory">
+        <MappingFragment StoreEntitySet="__MigrationHistory">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DayOfWeeks">
+      <EntityTypeMapping TypeName="ToDoModel.DayOfWeek">
+        <MappingFragment StoreEntitySet="DayOfWeeks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DayOfWeekName" ColumnName="DayOfWeekName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PerformerImages">
+      <EntityTypeMapping TypeName="ToDoModel.PerformerImage">
+        <MappingFragment StoreEntitySet="PerformerImages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Guid" ColumnName="Guid" />
+          <ScalarProperty Name="Data" ColumnName="Data" />
+          <ScalarProperty Name="ContentType" ColumnName="ContentType" />
+          <ScalarProperty Name="DateChanged" ColumnName="DateChanged" />
+          <ScalarProperty Name="FileName" ColumnName="FileName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Performers">
+      <EntityTypeMapping TypeName="ToDoModel.Performer">
+        <MappingFragment StoreEntitySet="Performers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tasks">
+      <EntityTypeMapping TypeName="ToDoModel.Task">
+        <MappingFragment StoreEntitySet="Tasks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="PerformerId" ColumnName="PerformerId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TaskDayOfWeeks" TypeName="ToDoModel.TaskDayOfWeeks" StoreEntitySet="TaskDayOfWeeks">
+      <EndProperty Name="DayOfWeeks">
+        <ScalarProperty Name="Id" ColumnName="DayOfWeek_Id" />
+      </EndProperty>
+      <EndProperty Name="Tasks">
+        <ScalarProperty Name="Id" ColumnName="Task_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
